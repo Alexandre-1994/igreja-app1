@@ -1,0 +1,610 @@
+/* ============================================
+   EDIT MEMBER PAGE - PÁGINA DE EDIÇÃO
+   ============================================ */
+
+   .edit-member-page {
+    --background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  }
+  
+  /* ============================================
+     HEADER E TOOLBAR
+     ============================================ */
+  
+  .edit-member-header {
+    --min-height: 70px;
+  }
+  
+  .modern-toolbar {
+    --background: linear-gradient(135deg, #667eea 0%, #11217f 100%);
+    --color: white;
+    --border-width: 0;
+    padding: 0 20px;
+  }
+  
+  .page-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+  
+  .title-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .title-icon {
+    font-size: 1.5rem;
+  }
+  
+  .back-button {
+    --color: white;
+    --border-radius: 12px;
+    width: 44px;
+    height: 44px;
+  }
+  
+  .back-button:hover {
+    --background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .refresh-btn, .cancel-btn {
+    --color: rgba(255, 255, 255, 0.9);
+    width: 44px;
+    height: 44px;
+  }
+  
+  .refresh-btn:hover, .cancel-btn:hover {
+    --background: rgba(255, 255, 255, 0.1);
+    --color: white;
+  }
+  
+  /* ============================================
+     CONTEÚDO PRINCIPAL
+     ============================================ */
+  
+  .edit-member-content {
+    --padding-start: 15px;
+    --padding-end: 15px;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+  }
+  
+  /* ============================================
+     SEÇÃO DE INFORMAÇÕES DO MEMBRO
+     ============================================ */
+  
+  .member-info-section {
+    margin-bottom: 25px;
+  }
+  
+  .member-info-card {
+    --background: linear-gradient(135deg, #667eea 0%, #11217f 100%);
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .member-info-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="80" cy="20" r="15" fill="rgba(255,255,255,0.1)"/><circle cx="20" cy="80" r="10" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="70" r="8" fill="rgba(255,255,255,0.1)"/></svg>');
+    opacity: 0.3;
+  }
+  
+  .member-header {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    padding: 10px 0;
+  }
+  
+  .member-avatar-container {
+    flex-shrink: 0;
+  }
+  
+  .member-avatar {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .member-details {
+    flex: 1;
+  }
+  
+  .member-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .member-meta {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .region-chip {
+    --background: rgba(255, 255, 255, 0.2);
+    --color: white;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .function-chip {
+    --background: rgba(76, 175, 80, 0.3);
+    --color: white;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .member-parish {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0;
+    font-weight: 500;
+  }
+  
+  /* ============================================
+     CARD DE INSTRUÇÕES
+     ============================================ */
+  
+  .instructions-card {
+    --background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .instructions-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #fa709a, #fee140);
+  }
+  
+  .instructions-content {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    padding: 10px 0;
+  }
+  
+  .info-icon {
+    font-size: 1.8rem;
+    color: #fa709a;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  
+  .instructions-text h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0 0 10px 0;
+  }
+  
+  .instructions-text ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #4a5568;
+  }
+  
+  .instructions-text li {
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+  
+  /* ============================================
+     CONTAINER DO FORMULÁRIO
+     ============================================ */
+  
+  .form-container {
+    margin-bottom: 30px;
+  }
+  
+  .form-card {
+    --background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .form-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #11217f);
+  }
+  
+  .form-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #667eea;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* ============================================
+     BOTÕES DE AÇÃO
+     ============================================ */
+  
+  .action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 30px;
+  }
+  
+  .delete-button {
+    --border-color: #e53e3e;
+    --color: #e53e3e;
+    --border-radius: 15px;
+    --padding: 14px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    height: 50px;
+    transition: all 0.3s ease;
+  }
+  
+  .delete-button:hover {
+    --background: rgba(229, 62, 62, 0.1);
+    transform: translateY(-2px);
+    --box-shadow: 0 8px 25px rgba(229, 62, 62, 0.2);
+  }
+  
+  .cancel-button {
+    --border-color: #718096;
+    --color: #718096;
+    --border-radius: 15px;
+    --padding: 14px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    height: 50px;
+    transition: all 0.3s ease;
+  }
+  
+  .cancel-button:hover {
+    --background: rgba(113, 128, 150, 0.1);
+    transform: translateY(-2px);
+    --box-shadow: 0 8px 25px rgba(113, 128, 150, 0.2);
+  }
+  
+  .update-button {
+    --background: linear-gradient(135deg, #667eea 0%, #11217f 100%);
+    --border-radius: 15px;
+    --padding: 14px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    height: 50px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .update-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .update-button:hover::before {
+    left: 100%;
+  }
+  
+  .update-button:hover {
+    transform: translateY(-2px);
+    --box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  }
+  
+  .update-button:active {
+    transform: translateY(0);
+  }
+  
+  /* Loading no botão */
+  .button-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* ============================================
+     SEÇÃO DE AJUDA
+     ============================================ */
+  
+  .help-section {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+  }
+  
+  .help-text {
+    font-size: 0.9rem;
+    margin: 0;
+    color: #718096;
+  }
+  
+  /* ============================================
+     PÁGINA DE ERRO
+     ============================================ */
+  
+  .error-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .error-message {
+    text-align: center;
+    max-width: 400px;
+  }
+  
+  .error-icon {
+    font-size: 4rem;
+    color: #e53e3e;
+    margin-bottom: 20px;
+  }
+  
+  .error-message h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0 0 10px 0;
+  }
+  
+  .error-message p {
+    color: #718096;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+  }
+  
+  /* ============================================
+     RESPONSIVIDADE
+     ============================================ */
+  
+  @media (max-width: 768px) {
+    .edit-member-content {
+      --padding-start: 15px;
+      --padding-end: 15px;
+    }
+    
+    .member-header {
+      flex-direction: column;
+      text-align: center;
+      gap: 15px;
+    }
+    
+    .member-name {
+      font-size: 1.5rem;
+    }
+    
+    .member-avatar {
+      width: 70px;
+      height: 70px;
+    }
+    
+    .avatar-placeholder {
+      font-size: 1.6rem;
+    }
+    
+    .instructions-content {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .info-icon {
+      align-self: center;
+    }
+    
+    .action-buttons {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    
+    .delete-button,
+    .cancel-button,
+    .update-button {
+      height: 48px;
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .modern-toolbar {
+      padding: 0 15px;
+    }
+    
+    .member-name {
+      font-size: 1.3rem;
+    }
+    
+    .member-meta {
+      justify-content: center;
+    }
+    
+    .instructions-text h3 {
+      font-size: 1.1rem;
+    }
+    
+    .instructions-text li {
+      font-size: 0.9rem;
+    }
+    
+    .form-title {
+      font-size: 1.2rem;
+    }
+    
+    .action-buttons {
+      gap: 8px;
+    }
+    
+    .delete-button,
+    .cancel-button,
+    .update-button {
+      height: 45px;
+      font-size: 0.85rem;
+      --padding: 12px;
+    }
+  }
+  
+  /* ============================================
+     MODO ESCURO
+     ============================================ */
+  
+  @media (prefers-color-scheme: dark) {
+    .edit-member-page {
+      --background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    }
+    
+    .instructions-card,
+    .form-card {
+      --background: rgba(20, 20, 30, 0.95);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .instructions-text h3 {
+      color: #ffffff;
+    }
+    
+    .instructions-text ul {
+      color: #a0a0b0;
+    }
+    
+    .form-title {
+      color: #8b8bf5;
+    }
+    
+    .help-section {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .help-text {
+      color: #a0a0b0;
+    }
+    
+    .info-icon {
+      color: #ff6b9d;
+    }
+    
+    .error-message h2 {
+      color: #ffffff;
+    }
+    
+    .error-message p {
+      color: #a0a0b0;
+    }
+  }
+  
+  /* ============================================
+     ANIMAÇÕES PERSONALIZADAS
+     ============================================ */
+  
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .member-info-section {
+    animation: slideInUp 0.6s ease 0.1s both;
+  }
+  
+  .instructions-card {
+    animation: slideInUp 0.6s ease 0.3s both;
+  }
+  
+  .form-container {
+    animation: slideInUp 0.6s ease 0.5s both;
+  }
+  
+  .action-buttons {
+    animation: slideInUp 0.6s ease 0.7s both;
+  }
+  
+  .help-section {
+    animation: fadeInScale 0.5s ease 0.9s both;
+  }

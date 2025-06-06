@@ -1,249 +1,82 @@
-:root {
-  --app-primary: #2c3e50;
-  --app-secondary: #3498db;
-  --app-success: #2ecc71;
-  --app-danger: #e74c3c;
-  --app-warning: #f1c40f;
-  --app-light: #ecf0f1;
-  --app-dark: #2c3e50;
-  --app-gray: #95a5a6;
-}
+/* ============================================
+   TEMA PRINCIPAL - VARIÁVEIS CSS
+   ============================================ */
 
-/* Cards Styling */
-ion-card {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
-  border-radius: 10px !important;
-  transition: transform 0.2s ease !important;
-}
-
-ion-card:hover {
-  transform: translateY(-5px);
-}
-
-.stat-card {
-    background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
-    color: white;
-}
-
-.stat-icon {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-}
-
-.stat-card h1 {
-    font-size: 2.5em;
-    margin: 10px 0;
-    color: white;
-}
-
-.stat-card h2 {
-    font-size: 1.2em;
-    color: var(--ion-color-light);
-}
-
-.region-stat {
-    text-align: center;
-    padding: 15px;
-    border-radius: 8px;
-    background: var(--ion-color-light);
-}
-
-.region-stat h3 {
-    margin: 0;
-    color: var(--ion-color-dark);
-}
-
-.region-stat p {
-    margin: 5px 0 0;
-    color: var(--ion-color-primary);
-    font-weight: bold;
-}
-
-.stats-number {
-  font-size: 2.5em;
-  font-weight: bold;
-  color: white;
-}
-
-.stats-label {
-  color: var(--app-light);
-  font-size: 1.1em;
-}
-
-/* Table Styling */
-.table-responsive {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow-x: auto;
-  margin: 20px 0;
-}
-
-.ion-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-}
-
-.ion-table th {
-  background: var(--app-primary);
-  color: white;
-  padding: 15px;
-  font-weight: 500;
-  text-align: left;
-}
-
-.ion-table td {
-  padding: 12px 15px;
-  border-bottom: 1px solid var(--app-light);
-  text-align: left;
-}
-
-.ion-table tr:hover {
-  background-color: rgba(236, 240, 241, 0.5);
-}
-
-/* Form Controls */
-ion-input, ion-select {
-  --background: white;
-  --padding-start: 15px;
-  --padding-end: 15px;
-  border-radius: 8px;
-  margin: 5px 0;
-}
-
-ion-searchbar {
-  --box-shadow: none;
-  --border-radius: 8px;
-  --background: white;
-  padding: 0;
-}
-
-/* Buttons */
-ion-button {
-  --border-radius: 8px;
-  font-weight: 500;
-  text-transform: none;
-}
-
-ion-button.button-clear {
-  --color: var(--app-primary);
-}
-
-ion-button.button-clear.danger {
-  --color: var(--app-danger);
-}
-
-/* Layout & Spacing */
-.ion-padding {
-  padding: 20px;
-}
-
-.ion-margin {
-  margin: 20px;
-}
-
-.ion-text-center {
-  text-align: center;
-}
-
-/* Custom Utility Classes */
-.search-filters {
-  background: white;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.content-card {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  color: var(--app-dark);
-  margin: 0;
-  padding: 10px 0;
-}
-
-/* Grid Improvements */
-ion-grid {
-  padding: 0;
-}
-
-ion-row {
-  margin: 0 -10px;
-}
-
-ion-col {
-  padding: 10px;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .stats-number {
-    font-size: 2em;
+   :root {
+    /* Cores Primárias */
+    --ion-color-primary: #3880ff;
+    --ion-color-primary-rgb: 56, 128, 255;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #3171e0;
+    --ion-color-primary-tint: #4c8dff;
+  
+    /* Cores Secundárias */
+    --ion-color-secondary: #0cd1e8;
+    --ion-color-secondary-rgb: 12, 209, 232;
+    --ion-color-secondary-contrast: #ffffff;
+    --ion-color-secondary-contrast-rgb: 255, 255, 255;
+    --ion-color-secondary-shade: #0bb8cc;
+    --ion-color-secondary-tint: #24d6ea;
+  
+    /* Cores de Status */
+    --ion-color-success: #10dc60;
+    --ion-color-success-rgb: 16, 220, 96;
+    --ion-color-success-contrast: #ffffff;
+    --ion-color-success-contrast-rgb: 255, 255, 255;
+    --ion-color-success-shade: #0ec254;
+    --ion-color-success-tint: #28e070;
+  
+    --ion-color-warning: #ffce00;
+    --ion-color-warning-rgb: 255, 206, 0;
+    --ion-color-warning-contrast: #000000;
+    --ion-color-warning-contrast-rgb: 0, 0, 0;
+    --ion-color-warning-shade: #e0b500;
+    --ion-color-warning-tint: #ffd31a;
+  
+    --ion-color-danger: #f04141;
+    --ion-color-danger-rgb: 240, 65, 65;
+    --ion-color-danger-contrast: #ffffff;
+    --ion-color-danger-contrast-rgb: 255, 255, 255;
+    --ion-color-danger-shade: #d33939;
+    --ion-color-danger-tint: #f25454;
+  
+    /* Cores Neutras */
+    --ion-color-light: #f4f5f8;
+    --ion-color-light-rgb: 244, 245, 248;
+    --ion-color-light-contrast: #000000;
+    --ion-color-light-contrast-rgb: 0, 0, 0;
+    --ion-color-light-shade: #d7d8da;
+    --ion-color-light-tint: #f5f6f9;
+  
+    --ion-color-medium: #92949c;
+    --ion-color-medium-rgb: 146, 148, 156;
+    --ion-color-medium-contrast: #ffffff;
+    --ion-color-medium-contrast-rgb: 255, 255, 255;
+    --ion-color-medium-shade: #808289;
+    --ion-color-medium-tint: #9d9fa6;
+  
+    --ion-color-dark: #222428;
+    --ion-color-dark-rgb: 34, 36, 40;
+    --ion-color-dark-contrast: #ffffff;
+    --ion-color-dark-contrast-rgb: 255, 255, 255;
+    --ion-color-dark-shade: #1e2023;
+    --ion-color-dark-tint: #383a3e;
+  
+    /* Gradientes */
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #11217f 100%);
+    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --gradient-card: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
+    
+    /* Sombras */
+    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.15);
+    --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.2);
+    --shadow-glow: 0 0 20px rgba(56, 128, 255, 0.3);
   }
   
-  .stats-label {
-    font-size: 1em;
-  }
+  /* ============================================
+     PÁGINA DE LOGIN - ESTILO MODERNO
+     ============================================ */
   
-  .ion-table th,
-  .ion-table td {
-    padding: 10px;
-  }
-}
-
-/* Toast Styling */
-.custom-toast {
-    font-weight: 500;
-    text-align: center;
-    border-radius: 8px;
-    margin-top: 20px;
-}
-
-.custom-toast.toast-success {
-    --background: var(--ion-color-success);
-    --color: var(--ion-color-success-contrast);
-}
-
-.custom-toast.toast-error {
-    --background: var(--ion-color-danger);
-    --color: var(--ion-color-danger-contrast);
-}
-
-.custom-toast.toast-info {
-    --background: var(--ion-color-primary);
-    --color: var(--ion-color-primary-contrast);
-}
-
-.loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: rgba(255, 255, 255, 0.9);
-    z-index: 9999;
-}
-
-.loading-container ion-spinner {
-    width: 48px;
-    height: 48px;
-    color: var(--ion-color-primary);
-}
-
-.loading-container p {
-    margin-top: 16px;
-    color: var(--ion-color-primary);
-    font-size: 1.1em;
-}

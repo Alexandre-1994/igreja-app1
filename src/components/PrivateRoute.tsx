@@ -12,7 +12,27 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...re
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // Verificar sessão inicial
         checkSession();
+
+        // CHAVE: Escutar mudanças de autenticação
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+            async (event, session) => {
+                console.log('Auth state changed:', event, session?.user?.email);
+                
+                if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+                    setSession(!!session);
+                    setLoading(false);
+                } else if (event === 'SIGNED_OUT') {
+                    setSession(false);
+                    setLoading(false);
+                }
+            }
+        );
+
+        return () => {
+            subscription.unsubscribe();
+        };
     }, []);
 
     const checkSession = async () => {
@@ -20,6 +40,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...re
             const { data: { session } } = await supabase.auth.getSession();
             setSession(!!session);
         } catch (error) {
+            console.error('Error checking session:', error);
             setSession(false);
         } finally {
             setLoading(false);
