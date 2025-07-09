@@ -15,10 +15,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #11217f 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
 }
 
 .header-start, .header-end {
@@ -333,6 +332,24 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Estilos para a página de adicionar membro */
+.add-member-page {
+  padding: 20px;
+  width: 100%;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.page-content {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 /* Responsividade */

@@ -49,7 +49,7 @@ const AddMember = () => {
   };
 
   return (
-    <div className="simple-page">
+    <div className="add-member-page">
       {isLoading && (
         <div className="loading-overlay">
           <Spinner />
@@ -57,14 +57,11 @@ const AddMember = () => {
         </div>
       )}
       
-      <header className="simple-header">
-        <button onClick={() => history.goBack()} className="back-btn">
-          ← Voltar
-        </button>
+      <header className="page-header">
         <h1>Novo Membro</h1>
       </header>
 
-      <main className="simple-main">
+      <main className="page-content">
         <div className="form-container">
           <div className="form-header">
             <h2>Cadastro de Membro</h2>

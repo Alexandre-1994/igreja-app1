@@ -1,30 +1,25 @@
-/* Estilos para a página de membros */
-.simple-page {
+/* Estilos para a página de membros - ajustando para padrão do sistema */
+.members-page {
+  padding: 20px;
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9;
-  min-height: 100vh;
-  font-family: system-ui, -apple-system, sans-serif;
 }
 
-/* Header simples */
-.simple-header {
+.page-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
   padding-bottom: 15px;
   border-bottom: 1px solid #eee;
 }
 
-.back-btn {
-  background: none;
-  border: none;
-  color: #3880ff;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 5px 10px;
+.page-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
 }
 
 .add-btn {
@@ -36,15 +31,6 @@
   cursor: pointer;
   padding: 8px 15px;
   border-radius: 6px;
-}
-
-.simple-header h1 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: 600;
-  color: #333;
-  flex-grow: 1;
-  text-align: center;
 }
 
 /* Conteúdo principal */
@@ -264,13 +250,10 @@
 }
 
 /* Responsividade */
-@media (max-width: 600px) {
-  .simple-page {
+@media (max-width: 768px) {
+  .members-page {
     padding: 15px;
-  }
-  
-  .filter-bar {
-    flex-direction: column;
+    padding-top: 60px; /* Espaço para o botão de menu móvel */
   }
   
   .member-actions {
@@ -285,20 +268,22 @@
     font-size: 20px;
   }
   
-  .simple-header {
-    flex-wrap: wrap;
+  .filter-bar {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .member-card {
+    flex-direction: column;
+    align-items: flex-start;
   }
   
-  .simple-header h1 {
-    order: -1;
+  .member-actions {
     width: 100%;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  
-  .simple-header .back-btn,
-  .simple-header .add-btn {
-    margin-top: 10px;
+    margin-top: 15px;
+    flex-direction: row;
+    justify-content: space-between;
   }
 }
 
@@ -327,6 +312,21 @@
   animation: spin 1s linear infinite;
   margin-bottom: 10px;
 }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+  /* 100% { transform: rotate(360deg); }
+}
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid white;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+} */
 
 @keyframes spin {
   0% { transform: rotate(0deg); }

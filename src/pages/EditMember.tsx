@@ -75,10 +75,12 @@ const EditMember: React.FC = () => {
     };
 
     const handleDelete = async () => {
+        if (!member) return; // Early return if member is null
+
         try {
             const willDelete = await confirmAction(
                 'Confirmar Exclusão',
-                `Deseja realmente excluir o membro "${member?.nome_completo}"? Esta ação não pode ser desfeita.`,
+                `Deseja realmente excluir o membro "${member.nome_completo}"? Esta ação não pode ser desfeita.`,
                 'Excluir',
                 'Cancelar'
             );
@@ -107,7 +109,7 @@ const EditMember: React.FC = () => {
 
     if (isLoading || isSaving) {
         return (
-            <div className="simple-page">
+            <div className="edit-member-page">
                 <div className="loading-overlay">
                     <Spinner />
                     <p>{isSaving ? "Salvando alterações..." : "Carregando dados..."}</p>
@@ -116,17 +118,18 @@ const EditMember: React.FC = () => {
         );
     }
 
+    // If no member is found, show an error
     if (!member) {
         return (
-            <div className="simple-page">
+            <div className="edit-member-page">
                 <div className="error-container">
                     <h2>Membro não encontrado</h2>
                     <p>O membro que você está tentando editar não foi encontrado.</p>
                     <button 
                         className="simple-button primary-button" 
-                        onClick={() => history.push('/')}
+                        onClick={() => history.push('/app/members')}
                     >
-                        Voltar ao Início
+                        Voltar à Lista de Membros
                     </button>
                 </div>
             </div>
@@ -134,18 +137,15 @@ const EditMember: React.FC = () => {
     }
 
     return (
-        <div className="simple-page">
-            <header className="simple-header">
-                <button onClick={() => history.goBack()} className="back-btn">
-                    ← Voltar
-                </button>
+        <div className="edit-member-page">
+            <header className="page-header">
                 <h1>Editar Membro</h1>
                 <button onClick={handleDelete} className="delete-btn">
                     Excluir
                 </button>
             </header>
 
-            <main className="simple-main">
+            <main className="page-content">
                 {/* Informações básicas do membro */}
                 <div className="member-summary">
                     <div className="member-avatar">
@@ -167,7 +167,10 @@ const EditMember: React.FC = () => {
                         <p>Atualize as informações e clique em Salvar</p>
                     </div>
                     
-                    <MemberForm onSubmit={handleSubmit} initialData={member} />
+                    <MemberForm 
+                        onSubmit={handleSubmit} 
+                        initialData={member} // Now we're sure member is not null
+                    />
                     
                     <div className="form-footer">
                         <p className="update-info">

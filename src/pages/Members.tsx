@@ -215,7 +215,7 @@ const Members: React.FC = () => {
     };
 
     return (
-        <div className="simple-page">
+        <div className="members-page">
             {isLoading && (
                 <div className="loading-overlay">
                     <Spinner />
@@ -223,13 +223,10 @@ const Members: React.FC = () => {
                 </div>
             )}
             
-            <header className="simple-header">
-                <button onClick={() => history.goBack()} className="back-btn">
-                    ← Voltar
-                </button>
+            <header className="page-header">
                 <h1>Lista de Membros</h1>
                 <button 
-                    onClick={() => history.push('/add')} 
+                    onClick={() => history.push('/app/add')} 
                     className="add-btn"
                 >
                     + Novo
