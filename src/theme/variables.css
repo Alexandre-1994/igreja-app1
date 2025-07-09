@@ -79,4 +79,19 @@
   /* ============================================
      PÁGINA DE LOGIN - ESTILO MODERNO
      ============================================ */
-  
+
+     /* Garantir que o scroll funcione em todo o sistema */
+html, body {
+  height: 100%;
+  overflow: auto !important;
+  position: relative;
+}
+
+/* Remover qualquer limitação de overflow que possa estar causando problemas */
+ion-content {
+  --overflow: auto !important;
+}
+
+ion-app, ion-router-outlet, ion-content {
+  height: auto !important;
+}

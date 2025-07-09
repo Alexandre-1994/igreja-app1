@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import {
-    IonContent,
-    IonPage,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonButton,
-    IonIcon,
-    IonList,
-    IonItem,
-    IonLabel,
-    IonInput,
-    IonSelect,
-    IonSelectOption,
-    IonButtons,
-    IonCard,
-    IonCardContent,
-} from '@ionic/react';
-import { personAdd, key } from 'ionicons/icons';
 import { supabase } from '../services/supabase';
-import { showFeedback } from '../services/feedback';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { showFeedback, confirmAction } from '../services/feedback';
+import './UserManagement.css';
+
+// Interface para usuário
+interface User {
+  id: string;
+  email: string;
+  role: string;
+  created_at: string;
+}
+
+// Componente de Spinner para loadings
+const Spinner = () => <div className="spinner"></div>;
 
 const UserManagement: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +21,9 @@ const UserManagement: React.FC = () => {
         password: '',
         role: 'user'
     });
-    const [users, setUsers] = useState<any[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
+    const [editMode, setEditMode] = useState<string | null>(null);
+    const [editRole, setEditRole] = useState('');
 
     useEffect(() => {
         fetchUsers();
@@ -47,6 +41,7 @@ const UserManagement: React.FC = () => {
             setUsers(data || []);
         } catch (error) {
             showFeedback('Erro ao carregar usuários', 'error');
+            console.error('Error fetching users:', error);
         } finally {
             setIsLoading(false);
         }
@@ -54,17 +49,31 @@ const UserManagement: React.FC = () => {
 
     const handleCreateUser = async (e: React.FormEvent) => {
         e.preventDefault();
+        
+        if (!newUser.email.trim() || !newUser.password.trim()) {
+            showFeedback('Email e senha são obrigatórios', 'warning');
+            return;
+        }
+        
         try {
             setIsLoading(true);
             
-            const { data, error } = await supabase.auth.admin.createUser({
+            // Criar usuário na autenticação do Supabase
+            const { data, error } = await supabase.auth.signUp({
                 email: newUser.email,
                 password: newUser.password,
-                user_metadata: { role: newUser.role }
+                options: {
+                    data: { role: newUser.role }
+                }
             });
 
             if (error) throw error;
 
+            if (!data.user) {
+                throw new Error('Falha ao criar usuário');
+            }
+
+            // Adicionar à tabela de usuários
             await supabase.from('users').insert([{
                 id: data.user.id,
                 email: newUser.email,
@@ -75,77 +84,223 @@ const UserManagement: React.FC = () => {
             showFeedback('Usuário criado com sucesso!', 'success');
             setNewUser({ email: '', password: '', role: 'user' });
             fetchUsers();
-        } catch (error) {
-            showFeedback('Erro ao criar usuário', 'error');
+        } catch (error: any) {
+            showFeedback(`Erro ao criar usuário: ${error.message}`, 'error');
+            console.error('Error creating user:', error);
         } finally {
             setIsLoading(false);
         }
     };
+    
+    const handleEditRole = async (userId: string) => {
+        if (!editRole) {
+            showFeedback('Selecione uma função', 'warning');
+            return;
+        }
+        
+        try {
+            setIsLoading(true);
+            
+            // Atualizar na tabela de usuários
+            const { error } = await supabase
+                .from('users')
+                .update({ role: editRole })
+                .eq('id', userId);
+
+            if (error) throw error;
+            
+            showFeedback('Função atualizada com sucesso!', 'success');
+            setEditMode(null);
+            fetchUsers();
+        } catch (error) {
+            showFeedback('Erro ao atualizar função', 'error');
+            console.error('Error updating role:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
+    const handleDeleteUser = async (userId: string, userEmail: string) => {
+        const confirmed = await confirmAction(
+            'Confirmar exclusão',
+            `Tem certeza que deseja excluir o usuário ${userEmail}?`,
+            'Excluir',
+            'Cancelar'
+        );
+        
+        if (!confirmed) return;
+        
+        try {
+            setIsLoading(true);
+            
+            // Remover da tabela de usuários
+            const { error } = await supabase
+                .from('users')
+                .delete()
+                .eq('id', userId);
+
+            if (error) throw error;
+            
+            showFeedback('Usuário removido com sucesso!', 'success');
+            fetchUsers();
+        } catch (error) {
+            showFeedback('Erro ao remover usuário', 'error');
+            console.error('Error deleting user:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
+    const startEdit = (userId: string, currentRole: string) => {
+        setEditMode(userId);
+        setEditRole(currentRole);
+    };
 
     return (
-        <IonPage>
-            {isLoading && <LoadingSpinner message="Processando..." />}
-            <IonHeader>
-                <IonToolbar color="primary">
-                    <IonTitle>Gerenciar Usuários</IonTitle>
-                </IonToolbar>
-            </IonHeader>
+        <div className="user-management-page">
+            {isLoading && (
+                <div className="loading-overlay">
+                    <Spinner />
+                    <p>Processando...</p>
+                </div>
+            )}
+            
+            <header className="page-header">
+                <h1>Gerenciar Usuários</h1>
+            </header>
 
-            <IonContent className="ion-padding">
-                <IonCard>
-                    <IonCardContent>
-                        <form onSubmit={handleCreateUser}>
-                            <IonItem>
-                                <IonLabel position="floating">Email</IonLabel>
-                                <IonInput
+            <main className="user-content">
+                <section className="new-user-section">
+                    <div className="card">
+                        <h2 className="card-title">Novo Usuário</h2>
+                        <form onSubmit={handleCreateUser} className="user-form">
+                            <div className="form-group">
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    id="email"
                                     type="email"
                                     value={newUser.email}
-                                    onIonChange={e => setNewUser({...newUser, email: e.detail.value!})}
+                                    onChange={e => setNewUser({...newUser, email: e.target.value})}
                                     required
+                                    className="form-input"
                                 />
-                            </IonItem>
+                            </div>
 
-                            <IonItem>
-                                <IonLabel position="floating">Senha</IonLabel>
-                                <IonInput
+                            <div className="form-group">
+                                <label htmlFor="password">Senha</label>
+                                <input
+                                    id="password"
                                     type="password"
                                     value={newUser.password}
-                                    onIonChange={e => setNewUser({...newUser, password: e.detail.value!})}
+                                    onChange={e => setNewUser({...newUser, password: e.target.value})}
                                     required
+                                    className="form-input"
                                 />
-                            </IonItem>
+                            </div>
 
-                            <IonItem>
-                                <IonLabel>Função</IonLabel>
-                                <IonSelect
+                            <div className="form-group">
+                                <label htmlFor="role">Função</label>
+                                <select
+                                    id="role"
                                     value={newUser.role}
-                                    onIonChange={e => setNewUser({...newUser, role: e.detail.value})}
+                                    onChange={e => setNewUser({...newUser, role: e.target.value})}
+                                    className="form-select"
                                 >
-                                    <IonSelectOption value="admin">Administrador</IonSelectOption>
-                                    <IonSelectOption value="user">Usuário</IonSelectOption>
-                                </IonSelect>
-                            </IonItem>
+                                    <option value="admin">Administrador</option>
+                                    <option value="user">Usuário Padrão</option>
+                                </select>
+                            </div>
 
-                            <IonButton expand="block" type="submit" className="ion-margin-top">
-                                <IonIcon icon={personAdd} slot="start" />
+                            <button type="submit" className="create-button">
                                 Criar Usuário
-                            </IonButton>
+                            </button>
                         </form>
-                    </IonCardContent>
-                </IonCard>
+                    </div>
+                </section>
 
-                <IonList>
-                    {users.map(user => (
-                        <IonItem key={user.id}>
-                            <IonLabel>
-                                <h2>{user.email}</h2>
-                                <p>Função: {user.role}</p>
-                            </IonLabel>
-                        </IonItem>
-                    ))}
-                </IonList>
-            </IonContent>
-        </IonPage>
+                <section className="users-list-section">
+                    <div className="card">
+                        <h2 className="card-title">Usuários do Sistema</h2>
+                        
+                        {users.length === 0 ? (
+                            <p className="no-users">Nenhum usuário encontrado.</p>
+                        ) : (
+                            <div className="users-table-container">
+                                <table className="users-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Email</th>
+                                            <th>Função</th>
+                                            <th>Data de Cadastro</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {users.map(user => (
+                                            <tr key={user.id}>
+                                                <td>{user.email}</td>
+                                                <td>
+                                                    {editMode === user.id ? (
+                                                        <select
+                                                            value={editRole}
+                                                            onChange={e => setEditRole(e.target.value)}
+                                                            className="edit-select"
+                                                        >
+                                                            <option value="admin">Administrador</option>
+                                                            <option value="user">Usuário Padrão</option>
+                                                        </select>
+                                                    ) : (
+                                                        <span className={`role-badge ${user.role}`}>
+                                                            {user.role === 'admin' ? 'Administrador' : 'Usuário Padrão'}
+                                                        </span>
+                                                    )}
+                                                </td>
+                                                <td>
+                                                    {new Date(user.created_at).toLocaleDateString('pt-BR')}
+                                                </td>
+                                                <td className="actions">
+                                                    {editMode === user.id ? (
+                                                        <>
+                                                            <button
+                                                                onClick={() => handleEditRole(user.id)}
+                                                                className="save-button"
+                                                            >
+                                                                Salvar
+                                                            </button>
+                                                            <button
+                                                                onClick={() => setEditMode(null)}
+                                                                className="cancel-button"
+                                                            >
+                                                                Cancelar
+                                                            </button>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <button
+                                                                onClick={() => startEdit(user.id, user.role)}
+                                                                className="edit-button"
+                                                            >
+                                                                Editar
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleDeleteUser(user.id, user.email)}
+                                                                className="delete-button"
+                                                            >
+                                                                Excluir
+                                                            </button>
+                                                        </>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+                </section>
+            </main>
+        </div>
     );
 };
 

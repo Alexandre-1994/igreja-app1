@@ -1,0 +1,235 @@
+/* Estilos para a página de gerenciamento de usuários */
+.user-management-page {
+  padding: 20px;
+  width: 100%;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.user-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card compartilhado */
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.card-title {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Formulário de novo usuário */
+.new-user-section {
+  max-width: 500px;
+  margin: 0 auto 20px;
+  width: 100%;
+}
+
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #666;
+}
+
+.form-input, .form-select, .edit-select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.create-button {
+  background-color: #3880ff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.create-button:hover {
+  background-color: #2d6ad9;
+}
+
+/* Lista de usuários */
+.users-table-container {
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.users-table th,
+.users-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.users-table th {
+  color: #666;
+  font-weight: 600;
+  background-color: #f9f9f9;
+}
+
+.users-table tr:hover {
+  background-color: #f8f9ff;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-button,
+.delete-button,
+.save-button,
+.cancel-button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+}
+
+.edit-button {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.delete-button {
+  background-color: #ffebee;
+  color: #e53935;
+}
+
+.save-button {
+  background-color: #e8f5e9;
+  color: #43a047;
+}
+
+.cancel-button {
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+/* Badge de função */
+.role-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.role-badge.admin {
+  background-color: #e8f5e9;
+  color: #43a047;
+}
+
+.role-badge.user {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.no-users {
+  text-align: center;
+  color: #777;
+  padding: 20px;
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  color: white;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid white;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .user-management-page {
+    padding: 15px;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .users-table th,
+  .users-table td {
+    padding: 8px;
+  }
+}

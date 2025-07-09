@@ -1,0 +1,158 @@
+/* Estilos para o layout principal */
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+  overflow-y: visible; /* Garantir que o conteúdo possa rolar */
+}
+
+/* Menu lateral */
+.sidemenu {
+  width: 250px;
+  background-color: #2c3e50;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto; /* Permitir scroll no menu lateral se necessário */
+  z-index: 1000;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  transform: none;
+  transition: transform 0.3s ease;
+}
+
+.sidemenu-header {
+  padding: 20px 15px;
+  background-color: #1a2a38;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidemenu-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.close-menu-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  display: none; /* Oculto em desktop */
+}
+
+.sidemenu-content {
+  padding: 10px 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  color: white;
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.menu-item:hover, .menu-item.active {
+  background-color: #34495e;
+  border-left-color: #3880ff;
+}
+
+.menu-icon {
+  margin-right: 10px;
+  font-size: 18px;
+  width: 24px;
+  text-align: center;
+}
+
+.menu-text {
+  font-size: 14px;
+}
+
+/* Separador de menu */
+.menu-separator {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 10px 15px;
+}
+
+/* Overlay para fechar o menu em mobile */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+}
+
+/* Conteúdo principal */
+.main-content {
+  flex: 1;
+  margin-left: 250px; /* Deslocamento para acomodar o menu fixo */
+  width: calc(100% - 250px);
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  position: relative;
+  overflow-y: visible; /* Garantir que o conteúdo possa rolar */
+  min-height: 100vh; /* Altura mínima para conteúdos pequenos */
+}
+
+/* Botão de toggle do menu */
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin: 15px;
+  color: #333;
+  display: none; /* Oculto em desktop */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+  .sidemenu {
+    transform: translateX(-100%); /* Esconde o menu em dispositivos móveis */
+  }
+  
+  .sidemenu.open {
+    transform: translateX(0); /* Mostra o menu quando a classe 'open' é adicionada */
+  }
+  
+  .menu-overlay.open {
+    display: block;
+  }
+  
+  .close-menu-btn {
+    display: block; /* Visível em mobile */
+  }
+  
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding-top: 60px; /* Espaço para o botão de menu */
+  }
+  
+  .main-content.menu-open {
+    /* Não desloca em mobile */
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .menu-toggle {
+    display: block; /* Visível em mobile */
+  }
+}

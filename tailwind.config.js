@@ -76,12 +76,33 @@ export default {
             backgroundPosition: 'right center'
           }
         }
-      }
+      },
+      // Adicionar utilitários de scroll personalizados
+      height: {
+        'dynamic-screen': 'calc(var(--vh, 1vh) * 100)',
+      },
     },
   },
-  plugins: [],
-  // Importante: configurar para não conflitar com Ionic
+  variants: {
+    extend: {
+      // ...existing code...
+    },
+  },
+  plugins: [
+    // ...existing code...
+    
+    // Plugin para corrigir a altura da tela em dispositivos móveis
+    function({ addBase }) {
+      addBase({
+        ':root': {
+          '--vh': '1vh',
+        }
+      });
+    },
+  ],
+  // Garantir que o Tailwind não sobrescreva nossos estilos de scroll
   corePlugins: {
-    preflight: false, // Desabilita reset CSS do Tailwind para não conflitar com Ionic
-  }
-}
+    // ...existing code...
+    container: false, // Desabilitar container do Tailwind se estiver causando problemas
+  },
+};

@@ -1,17 +1,21 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import React, { useState, useEffect } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { IonApp, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import AddMember from './pages/AddMember';
 import EditMember from './pages/EditMember';
-import PrivateRoute from './components/PrivateRoute';
+import Members from './pages/Members'; 
 import Login from './pages/Login';
 import UserManagement from './pages/UserManagement';
 import TailwindTest from './pages/TailwindTest';
+import MainLayout from './components/MainLayout';
+import { supabase } from './services/supabase';
+import { canManageMembers } from './utils/permissions';
+import { setupViewportHeight, fixIonicScroll } from './utils/viewport';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
-
 
 /* Basic CSS for apps built with Ionic */
 import '@ionic/react/css/normalize.css';
@@ -26,36 +30,119 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
-/* Theme variables */
+/* Theme variables and custom CSS */
 import './theme/variables.css';
-
-/* Tailwind CSS */
 import './tailwind.css';
-
-/* Tailwind CSS - IMPORTANTE: deve vir após os estilos do Ionic */
-import './tailwind.css';
+import './components/MainLayout.css';
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  const [hasPermission, setHasPermission] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    checkAuth();
+    
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        setIsAuthenticated(true);
+        checkPermissions();
+      } else if (event === 'SIGNED_OUT') {
+        setIsAuthenticated(false);
+      }
+    });
+    
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+  
+  useEffect(() => {
+    // Configurar altura da viewport e corrigir scroll do Ionic
+    setupViewportHeight();
+    
+    // Corrigir scroll após o carregamento inicial
+    setTimeout(() => {
+      fixIonicScroll();
+    }, 300);
+    
+    // Re-aplicar quando a rota muda
+    window.addEventListener('ionRouteDidChange', fixIonicScroll);
+    
+    return () => {
+      window.removeEventListener('ionRouteDidChange', fixIonicScroll);
+    };
+  }, []);
+  
+  const checkAuth = async () => {
+    try {
+      setIsLoading(true);
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+      
+      if (session) {
+        checkPermissions();
+      }
+    } catch (error) {
+      console.error('Auth error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  const checkPermissions = async () => {
+    try {
+      const permitted = await canManageMembers();
+      setHasPermission(permitted);
+    } catch (error) {
+      console.error('Permission check error:', error);
+      setHasPermission(false);
+    }
+  };
+
+  // Redirecionamento baseado no estado de autenticação
+  if (isLoading) {
+    return <div className="loading-screen">Carregando...</div>;
+  }
+
   return (
-    <IonApp>
+    <IonApp className="scrollable-app">
       <IonReactRouter>
-        <IonRouterOutlet>
-          <Route exact path="/login" component={Login} />
-          <PrivateRoute exact path="/home" component={Home} />
-          <PrivateRoute exact path="/add" component={AddMember} />
-          <PrivateRoute exact path="/edit/:id" component={EditMember} />
-          <PrivateRoute exact path="/users" component={UserManagement} />
-          <Route exact path="/test-tailwind" component={TailwindTest} />
-          <Route exact path="/">
-            <Redirect to="/login" />
+        <Switch>
+          <Route path="/login" exact>
+            {isAuthenticated ? <Redirect to="/app/home" /> : <Login />}
           </Route>
-          {/* Catch all route - redireciona rotas não encontradas */}
+          
+          <Route path="/app">
+            {!isAuthenticated ? (
+              <Redirect to="/login" />
+            ) : (
+              <MainLayout hasPermission={hasPermission}>
+                <Switch>
+                  <Route path="/app/home" component={Home} exact />
+                  <Route path="/app/members" component={Members} exact />
+                  <Route path="/app/add" component={AddMember} exact />
+                  <Route path="/app/edit/:id" component={EditMember} exact />
+                  <Route path="/app/users" component={UserManagement} exact />
+                  <Route path="/app/test-tailwind" component={TailwindTest} exact />
+                  <Route path="/app">
+                    <Redirect to="/app/home" />
+                  </Route>
+                </Switch>
+              </MainLayout>
+            )}
+          </Route>
+          
+          <Route exact path="/">
+            <Redirect to="/app/home" />
+          </Route>
+          
           <Route path="*">
             <Redirect to="/login" />
           </Route>
-        </IonRouterOutlet>
+        </Switch>
       </IonReactRouter>
     </IonApp>
   );
