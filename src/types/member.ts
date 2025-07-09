@@ -9,6 +9,7 @@ export interface Member {
     estado: 'Batizado' | 'Confirmado';
     sociedade: 'Dominical' | 'Jovens' | 'SNF' | 'SHV' | 'SS';
     created_at: string;
+    updated_at?: string; // Make it optional since it might not exist for all members
 }
 
 export const paroquiasPorRegiao = {

@@ -4,6 +4,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
 import AddMember from './pages/AddMember';
 import EditMember from './pages/EditMember';
+import Members from './pages/Members'; // Importando a página de membros
 import PrivateRoute from './components/PrivateRoute';
 import Login from './pages/Login';
 import UserManagement from './pages/UserManagement';
@@ -47,13 +48,14 @@ const App: React.FC = () => {
           <PrivateRoute exact path="/add" component={AddMember} />
           <PrivateRoute exact path="/edit/:id" component={EditMember} />
           <PrivateRoute exact path="/users" component={UserManagement} />
+          <PrivateRoute exact path="/members" component={Members} /> {/* Adicionando rota para Members */}
           <Route exact path="/test-tailwind" component={TailwindTest} />
           <Route exact path="/">
-            <Redirect to="/login" />
+            <Redirect to="/home" /> {/* Alterando para redirecionar para /home ao invés de /login */}
           </Route>
           {/* Catch all route - redireciona rotas não encontradas */}
           <Route path="*">
-            <Redirect to="/login" />
+            <Redirect to="/home" /> {/* Alterando para redirecionar para /home */}
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>
