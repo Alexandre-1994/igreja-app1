@@ -7,6 +7,7 @@ import EditMember from './pages/EditMember';
 import PrivateRoute from './components/PrivateRoute';
 import Login from './pages/Login';
 import UserManagement from './pages/UserManagement';
+import TailwindTest from './pages/TailwindTest';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -28,6 +29,12 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+/* Tailwind CSS */
+import './tailwind.css';
+
+/* Tailwind CSS - IMPORTANTE: deve vir após os estilos do Ionic */
+import './tailwind.css';
+
 setupIonicReact();
 
 const App: React.FC = () => {
@@ -40,6 +47,7 @@ const App: React.FC = () => {
           <PrivateRoute exact path="/add" component={AddMember} />
           <PrivateRoute exact path="/edit/:id" component={EditMember} />
           <PrivateRoute exact path="/users" component={UserManagement} />
+          <Route exact path="/test-tailwind" component={TailwindTest} />
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>

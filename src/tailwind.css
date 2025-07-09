@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom classes para integração com Ionic */
+@layer components {
+  .church-card {
+    @apply bg-white rounded-lg shadow-md p-6 border-l-4 border-church-gold;
+  }
+  
+  .church-button {
+    @apply bg-church-darkblue text-white px-6 py-2 rounded-lg hover:bg-opacity-90 transition-all duration-200;
+  }
+  
+  .church-input {
+    @apply border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-church-lightblue focus:border-transparent;
+  }
+  
+  .stats-card {
+    @apply bg-gradient-to-br from-primary-500 to-primary-600 text-white p-4 rounded-xl shadow-lg;
+  }
+}
