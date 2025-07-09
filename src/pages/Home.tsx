@@ -76,12 +76,17 @@ const Home: React.FC = () => {
     }, []);
 
     const checkPermissions = async () => {
-        const permitted = await canManageMembers();
-        setHasPermission(permitted);
-        
-        if (!permitted) {
-            showFeedback('Você não tem permissão para gerenciar membros', 'warning');
-            history.push('/login');
+        try {
+            const permitted = await canManageMembers();
+            setHasPermission(permitted);
+            
+            if (!permitted) {
+                showFeedback('Acesso limitado - algumas funcionalidades podem estar restritas', 'warning');
+                // Não redirecionar automaticamente, apenas mostrar aviso
+            }
+        } catch (error) {
+            console.error('Error checking permissions:', error);
+            setHasPermission(false);
         }
     };
 

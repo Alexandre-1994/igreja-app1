@@ -12,9 +12,9 @@ export interface Member {
 }
 
 export const paroquiasPorRegiao = {
-    ESTE: ['Munhava', 'Esturo', 'Massagem'],
-    SUL: ['Manhangalene', 'Costa do Sol'],
-    OESTE: ['Bairro 4', 'Manica', 'Tete'],
-    SUDUESTE: ['Manchanga', 'Goi-Goi'],
-    NORTE: []
+    ESTE: ['Munhava', 'Esturo', 'Massagem', 'Ampara', 'Nova Sofala ', 'Baixo Buzi', 'Alto Buzi', 'Nhamidji', 'Tica', 'Dondo', 'Chamba', 'Massagem', 'Inhamudima', 'C. de Machiquiri'],
+    SUL: ['Manhangalene', 'Costa do Sol', 'Magoanine'],
+    OESTE: ['Bairro 4', 'Manica', 'Tete', 'Chimoio', 'Muzingazi', 'Gondola', 'Lazarovi'],
+    SUDUESTE: ['Mambone','Manchanga', 'Goi-Goi', 'Chibabava', 'Machazi', 'Chorovane'],
+    NORTE: ['Caia', 'Mopeia', 'Quelimane', 'Chinde', 'C. Nampula', 'C. Morumbala', 'C. Chhuri'],
 };

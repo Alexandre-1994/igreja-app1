@@ -13,6 +13,7 @@
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -28,4 +29,13 @@ yarn-debug.log*
 yarn-error.log*
 
 # Optional eslint cache
+.eslintcache
+
+# Capacitor
+android/
+ios/
+capacitor.config.ts
+
+# Vercel
+.vercel
 .eslintcache
