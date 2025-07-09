@@ -43,7 +43,8 @@ const App: React.FC = () => {
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>
-          <Route>
+          {/* Catch all route - redireciona rotas não encontradas */}
+          <Route path="*">
             <Redirect to="/login" />
           </Route>
         </IonRouterOutlet>
