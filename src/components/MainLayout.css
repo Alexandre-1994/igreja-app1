@@ -4,6 +4,7 @@
   display: flex;
   min-height: 100vh;
   position: relative;
+  overflow-y: visible; /* Garantir que o conteúdo possa rolar */
 }
 
 /* Menu lateral */
@@ -15,7 +16,7 @@
   top: 0;
   left: 0;
   height: 100vh;
-  overflow-y: auto;
+  overflow-y: auto; /* Permitir scroll no menu lateral se necessário */
   z-index: 1000;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   transform: none;
@@ -102,6 +103,8 @@
   width: calc(100% - 250px);
   transition: margin-left 0.3s ease, width 0.3s ease;
   position: relative;
+  overflow-y: visible; /* Garantir que o conteúdo possa rolar */
+  min-height: 100vh; /* Altura mínima para conteúdos pequenos */
 }
 
 /* Botão de toggle do menu */

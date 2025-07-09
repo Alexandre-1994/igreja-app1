@@ -145,7 +145,7 @@ const Home: React.FC = () => {
     .slice(0, 3);
 
   return (
-    <div className="dashboard-page">
+    <div className="dashboard-page scrollable-content">
       {isLoading && <Spinner message="Carregando estatísticas..." />}
       
       {/* Mensagem de boas-vindas temporária */}

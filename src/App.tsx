@@ -12,6 +12,7 @@ import TailwindTest from './pages/TailwindTest';
 import MainLayout from './components/MainLayout';
 import { supabase } from './services/supabase';
 import { canManageMembers } from './utils/permissions';
+import { setupViewportHeight, fixIonicScroll } from './utils/viewport';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -58,6 +59,23 @@ const App: React.FC = () => {
     };
   }, []);
   
+  useEffect(() => {
+    // Configurar altura da viewport e corrigir scroll do Ionic
+    setupViewportHeight();
+    
+    // Corrigir scroll após o carregamento inicial
+    setTimeout(() => {
+      fixIonicScroll();
+    }, 300);
+    
+    // Re-aplicar quando a rota muda
+    window.addEventListener('ionRouteDidChange', fixIonicScroll);
+    
+    return () => {
+      window.removeEventListener('ionRouteDidChange', fixIonicScroll);
+    };
+  }, []);
+  
   const checkAuth = async () => {
     try {
       setIsLoading(true);
@@ -90,7 +108,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <IonApp>
+    <IonApp className="scrollable-app">
       <IonReactRouter>
         <Switch>
           <Route path="/login" exact>

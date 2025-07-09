@@ -215,7 +215,7 @@ const Members: React.FC = () => {
     };
 
     return (
-        <div className="members-page">
+        <div className="members-page scrollable-content">
             {isLoading && (
                 <div className="loading-overlay">
                     <Spinner />

@@ -1,0 +1,66 @@
+/* Estilos globais para garantir scroll em todo o sistema */
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto !important;
+}
+
+#root {
+  height: 100%;
+  overflow: auto;
+}
+
+.scrollable-app {
+  overflow-y: auto !important;
+  height: auto !important;
+}
+
+.scrollable-content {
+  height: auto;
+  overflow-y: auto;
+  min-height: 50vh;
+}
+
+/* Corrigir problemas específicos do Ionic */
+ion-content {
+  --overflow: auto !important;
+}
+
+ion-app, ion-router-outlet, ion-content, ion-page {
+  height: auto !important;
+  contain: none !important;
+}
+
+/* Configurações globais de scroll para compatibilidade entre Tailwind, React e Ionic */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto !important;
+  position: relative;
+}
+
+/* Remover as restrições de scroll do Ionic */
+ion-content {
+  --overflow: auto !important;
+}
+
+ion-app, ion-router-outlet, ion-content, ion-page {
+  height: auto !important;
+  contain: none !important;
+}
+
+/* Classes utilitárias de scroll para componentes React */
+.scrollable-container {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Para melhor desempenho em iOS */
+}
+
+/* Override para estilos Tailwind que podem interferir no scroll */
+.tw-h-screen {
+  min-height: 100vh;
+  height: auto !important;
+}
