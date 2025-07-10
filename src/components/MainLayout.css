@@ -2,9 +2,10 @@
 
 .app-container {
   display: flex;
+  height: auto; /* Altura automática para permitir scroll */
   min-height: 100vh;
   position: relative;
-  overflow-y: visible; /* Garantir que o conteúdo possa rolar */
+  overflow: visible; /* Garantir que o conteúdo possa rolar */
 }
 
 /* Menu lateral */
@@ -16,7 +17,7 @@
   top: 0;
   left: 0;
   height: 100vh;
-  overflow-y: auto; /* Permitir scroll no menu lateral se necessário */
+  overflow: hidden; /* Menu fixo não faz scroll */
   z-index: 1000;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   transform: none;
@@ -48,6 +49,8 @@
 
 .sidemenu-content {
   padding: 10px 0;
+  height: calc(100vh - 80px);
+  overflow-y: auto; /* Só o conteúdo interno pode fazer scroll */
 }
 
 .menu-item {
@@ -103,8 +106,8 @@
   width: calc(100% - 250px);
   transition: margin-left 0.3s ease, width 0.3s ease;
   position: relative;
-  overflow-y: visible; /* Garantir que o conteúdo possa rolar */
-  min-height: 100vh; /* Altura mínima para conteúdos pequenos */
+  overflow: auto; /* Permitir scroll no conteúdo */
+  height: auto; /* Altura automática */
 }
 
 /* Botão de toggle do menu */
@@ -144,6 +147,8 @@
     margin-left: 0;
     width: 100%;
     padding-top: 60px; /* Espaço para o botão de menu */
+    overflow: auto; /* Garantir scroll em mobile */
+    height: auto;
   }
   
   .main-content.menu-open {

@@ -60,20 +60,15 @@ const App: React.FC = () => {
   }, []);
   
   useEffect(() => {
-    // Configurar altura da viewport e corrigir scroll do Ionic
+    // Configurar altura da viewport
     setupViewportHeight();
     
-    // Corrigir scroll após o carregamento inicial
-    setTimeout(() => {
+    // Corrigir scroll do Ionic após carregamento
+    const timer = setTimeout(() => {
       fixIonicScroll();
-    }, 300);
+    }, 100);
     
-    // Re-aplicar quando a rota muda
-    window.addEventListener('ionRouteDidChange', fixIonicScroll);
-    
-    return () => {
-      window.removeEventListener('ionRouteDidChange', fixIonicScroll);
-    };
+    return () => clearTimeout(timer);
   }, []);
   
   const checkAuth = async () => {
