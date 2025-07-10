@@ -30,6 +30,14 @@ const Sidebar: React.FC = () => {
             </nav>
             
             <div className="sidebar-footer">
+                <NavLink 
+                    to="/app/about" 
+                    className="nav-item about-link" 
+                    activeClassName="active"
+                >
+                    <i className="nav-icon fas fa-info-circle"></i>
+                    Sobre o Sistema
+                </NavLink>
                 <span className="version">v1.0.0</span>
             </div>
         </div>

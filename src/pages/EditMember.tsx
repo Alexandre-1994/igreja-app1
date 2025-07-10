@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useHistory } from 'react-router';
+import { useParams, useHistory } from 'react-router-dom';
 import MemberForm from '../components/MemberForm';
 import { supabase } from '../services/supabase';
 import { Member } from '../types/member';
@@ -17,12 +17,19 @@ const EditMember: React.FC = () => {
     const [isSaving, setIsSaving] = useState(false);
 
     useEffect(() => {
-        fetchMember();
-    }, [id]);
+        if (id) {
+            fetchMember();
+        } else {
+            showFeedback('ID do membro não fornecido', 'error');
+            history.push('/app/members');
+        }
+    }, [id, history]);
 
     const fetchMember = async () => {
         try {
             setIsLoading(true);
+            console.log('Fetching member with ID:', id);
+            
             const { data, error } = await supabase
                 .from('members')
                 .select('*')
@@ -30,15 +37,25 @@ const EditMember: React.FC = () => {
                 .single();
 
             if (error) {
+                console.error('Error fetching member:', error);
                 showFeedback('Erro ao carregar dados do membro', 'error');
-                history.push('/');
+                history.push('/app/members');
                 return;
             }
 
+            if (!data) {
+                console.error('No data returned for member ID:', id);
+                showFeedback('Membro não encontrado', 'error');
+                history.push('/app/members');
+                return;
+            }
+
+            console.log('Member data fetched:', data);
             setMember(data);
         } catch (error) {
+            console.error('Exception while fetching member:', error);
             showFeedback('Erro ao acessar o servidor', 'error');
-            history.push('/');
+            history.push('/app/members');
         } finally {
             setIsLoading(false);
         }
@@ -73,7 +90,7 @@ const EditMember: React.FC = () => {
             setIsSaving(false);
         }
     };
-
+    
     const handleCancel = () => {
         history.goBack();
     };
@@ -83,7 +100,7 @@ const EditMember: React.FC = () => {
 
         try {
             const willDelete = await confirmAction(
-                'Confirmar Exclusão',
+                'Confirmar exclusão',
                 `Deseja realmente excluir o membro "${member.nome_completo}"? Esta ação não pode ser desfeita.`,
                 'Excluir',
                 'Cancelar'
@@ -140,16 +157,35 @@ const EditMember: React.FC = () => {
         );
     }
 
+    // Add console log to debug member data
+    console.log('Member data to edit:', member);
+
     return (
         <div className="edit-member-page scrollable-content">
-            {/* ...existing loading overlay... */}
-            
             <header className="page-header">
                 <h1>Ekklesia - Editar Membro</h1>
-                {/* ...existing header content... */}
+                <div className="header-actions">
+                    <button 
+                        onClick={handleDelete} 
+                        className="delete-btn"
+                    >
+                        Excluir
+                    </button>
+                </div>
             </header>
 
-            {/* ...existing main content... */}
+            <main className="form-main">
+                <div className="form-header">
+                    <h2>{member.nome_completo}</h2>
+                    <p>Atualize as informações do membro</p>
+                </div>
+                
+                <MemberForm 
+                    onSubmit={handleSubmit} 
+                    onCancel={handleCancel}
+                    initialData={member}
+                />
+            </main>
         </div>
     );
 };

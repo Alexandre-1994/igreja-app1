@@ -1,46 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import {
-    IonContent,
-    IonItem,
-    IonLabel,
-    IonInput,
-    IonSelect,
-    IonSelectOption,
-    IonButton,
-    IonDatetime,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonCard,
-    IonCardContent,
-    IonCardHeader,
-    IonCardTitle,
-    IonIcon,
-    IonList,
-    IonSearchbar,
-    IonText,
-    IonToolbar,
-    IonTitle,
-    IonButtons,
-    IonHeader,
-    IonPage,
-    IonFooter
-} from '@ionic/react';
 import { Member, paroquiasPorRegiao } from '../types/member';
 
 interface MemberFormProps {
     onSubmit: (member: Partial<Member>) => void;
-    initialData?: Member;
     onCancel?: () => void;
+    initialData?: Partial<Member>;
 }
 
-const MemberForm: React.FC<MemberFormProps> = ({ onSubmit, initialData, onCancel }) => {
-    const [formData, setFormData] = useState<Partial<Member>>(initialData || {});
+const MemberForm: React.FC<MemberFormProps> = ({ onSubmit, onCancel, initialData = {} }) => {
+    const [formData, setFormData] = useState<Partial<Member>>({});
     const [paroquias, setParoquias] = useState<string[]>([]);
-
+    
+    // Initialize form data from initialData once on mount, and when initialData changes
     useEffect(() => {
-        if (formData.regiao) {
-            setParoquias(paroquiasPorRegiao[formData.regiao] || []);
+        console.log('Setting form data from initialData:', initialData);
+        setFormData(prevData => ({
+            ...prevData,
+            ...initialData
+        }));
+    }, [initialData]);
+
+    // Update paroquias when region changes
+    useEffect(() => {
+        if (formData.regiao && paroquiasPorRegiao[formData.regiao]) {
+            setParoquias(paroquiasPorRegiao[formData.regiao]);
+        } else {
+            setParoquias([]);
         }
     }, [formData.regiao]);
 
@@ -239,7 +224,7 @@ const MemberForm: React.FC<MemberFormProps> = ({ onSubmit, initialData, onCancel
                     type="submit" 
                     className="submit-btn"
                 >
-                    {initialData ? 'Atualizar' : 'Cadastrar'}
+                    {initialData && Object.keys(initialData).length > 0 ? 'Atualizar' : 'Cadastrar'}
                 </button>
                 
                 {onCancel && (
