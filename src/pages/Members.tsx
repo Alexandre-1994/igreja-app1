@@ -461,29 +461,35 @@ const Members: React.FC = () => {
             
             <header className="page-header">
                 <h1>Estatísticas e Membros</h1>
-                <button 
-                    onClick={() => history.push('/app/add')} 
-                    className="add-btn"
-                >
-                    + Novo
-                </button>
+                <div className="header-actions">
+                    <button 
+                        onClick={() => history.push('/app/add')} 
+                        className="add-btn"
+                    >
+                        + Novo
+                    </button>
+                    <button className="export-btn">
+                        Exportar Lista
+                    </button>
+                </div>
             </header>
-
-            <main className="members-content">
-                {/* Gráficos e estatísticas */}
-                <Charts members={filteredMembers} />
-                
-                {/* Filtros */}
+            
+            {/* Filters moved to top */}
+            <div className="filters-section">
                 <FilterBar 
                     onSearch={handleSearch} 
                     onFilterChange={handleFilterChange}
                     filters={filters}
                 />
                 
-                {/* Resultados */}
                 <div className="results-count">
                     {filteredMembers.length} {filteredMembers.length === 1 ? 'membro encontrado' : 'membros encontrados'}
                 </div>
+            </div>
+
+            <main className="members-content">
+                {/* Gráficos e estatísticas */}
+                <Charts members={filteredMembers} />
                 
                 {/* Tabela de membros */}
                 {filteredMembers.length > 0 ? (
@@ -511,11 +517,6 @@ const Members: React.FC = () => {
                         ) : null}
                     </div>
                 )}
-                
-                {/* Botão para exportar dados */}
-                <button className="export-btn">
-                    Exportar Lista
-                </button>
             </main>
         </div>
     );

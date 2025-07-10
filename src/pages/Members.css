@@ -181,7 +181,8 @@
 .results-count {
   font-size: 0.9rem;
   color: #666;
-  margin-bottom: 1rem;
+  margin-top: 0.75rem;
+  text-align: right;
 }
 
 /* Member table */
@@ -290,6 +291,8 @@
   font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
 }
 
 .export-btn:hover {
@@ -442,4 +445,18 @@
   .add-btn {
     width: 100%;
   }
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.filters-section {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+  padding: 1rem;
+  margin-bottom: 2rem;
 }

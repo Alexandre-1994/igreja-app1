@@ -65,7 +65,7 @@ const EditMember: React.FC = () => {
             setMember(prev => prev ? { ...prev, ...memberData } : null);
             
             setTimeout(() => {
-                history.push('/');
+                history.push('/app/members');
             }, 1500);
         } catch (error) {
             showFeedback('Não foi possível completar a atualização', 'error');
@@ -74,8 +74,12 @@ const EditMember: React.FC = () => {
         }
     };
 
+    const handleCancel = () => {
+        history.goBack();
+    };
+
     const handleDelete = async () => {
-        if (!member) return; // Early return if member is null
+        if (!member) return;
 
         try {
             const willDelete = await confirmAction(
@@ -99,7 +103,7 @@ const EditMember: React.FC = () => {
             }
 
             showFeedback('Membro excluído com sucesso', 'success');
-            history.push('/');
+            history.push('/app/members');
         } catch (error) {
             showFeedback('Erro ao processar a exclusão', 'error');
         } finally {
@@ -109,7 +113,7 @@ const EditMember: React.FC = () => {
 
     if (isLoading || isSaving) {
         return (
-            <div className="edit-member-page">
+            <div className="edit-member-page scrollable-content">
                 <div className="loading-overlay">
                     <Spinner />
                     <p>{isSaving ? "Salvando alterações..." : "Carregando dados..."}</p>
@@ -121,12 +125,12 @@ const EditMember: React.FC = () => {
     // If no member is found, show an error
     if (!member) {
         return (
-            <div className="edit-member-page">
+            <div className="edit-member-page scrollable-content">
                 <div className="error-container">
                     <h2>Membro não encontrado</h2>
                     <p>O membro que você está tentando editar não foi encontrado.</p>
                     <button 
-                        className="simple-button primary-button" 
+                        className="primary-button" 
                         onClick={() => history.push('/app/members')}
                     >
                         Voltar à Lista de Membros
@@ -137,47 +141,37 @@ const EditMember: React.FC = () => {
     }
 
     return (
-        <div className="edit-member-page">
+        <div className="edit-member-page scrollable-content">
+            {(isLoading || isSaving) && (
+                <div className="loading-overlay">
+                    <Spinner />
+                    <p>{isSaving ? "Salvando alterações..." : "Carregando dados..."}</p>
+                </div>
+            )}
+            
             <header className="page-header">
                 <h1>Editar Membro</h1>
-                <button onClick={handleDelete} className="delete-btn">
-                    Excluir
-                </button>
+                <div className="header-actions">
+                    <button 
+                        onClick={handleDelete} 
+                        className="delete-btn"
+                    >
+                        Excluir
+                    </button>
+                </div>
             </header>
 
-            <main className="page-content">
-                {/* Informações básicas do membro */}
-                <div className="member-summary">
-                    <div className="member-avatar">
-                        {member.nome_completo.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                        <h2 className="member-name">{member.nome_completo}</h2>
-                        <div className="member-tags">
-                            <span className="tag">{member.regiao}</span>
-                            <span className="tag">{member.funcao}</span>
-                        </div>
-                    </div>
+            <main className="form-main">
+                <div className="form-header">
+                    <h2>{member.nome_completo}</h2>
+                    <p>Atualize as informações do membro</p>
                 </div>
-
-                {/* Formulário */}
-                <div className="form-container">
-                    <div className="form-header">
-                        <h3>Editar Dados</h3>
-                        <p>Atualize as informações e clique em Salvar</p>
-                    </div>
-                    
-                    <MemberForm 
-                        onSubmit={handleSubmit} 
-                        initialData={member} // Now we're sure member is not null
-                    />
-                    
-                    <div className="form-footer">
-                        <p className="update-info">
-                            Última atualização: {new Date((member as any).updated_at || member.created_at).toLocaleString('pt-BR')}
-                        </p>
-                    </div>
-                </div>
+                
+                <MemberForm 
+                    onSubmit={handleSubmit} 
+                    onCancel={handleCancel}
+                    initialData={member}
+                />
             </main>
         </div>
     );
