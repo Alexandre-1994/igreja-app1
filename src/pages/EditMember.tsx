@@ -142,37 +142,14 @@ const EditMember: React.FC = () => {
 
     return (
         <div className="edit-member-page scrollable-content">
-            {(isLoading || isSaving) && (
-                <div className="loading-overlay">
-                    <Spinner />
-                    <p>{isSaving ? "Salvando alterações..." : "Carregando dados..."}</p>
-                </div>
-            )}
+            {/* ...existing loading overlay... */}
             
             <header className="page-header">
-                <h1>Editar Membro</h1>
-                <div className="header-actions">
-                    <button 
-                        onClick={handleDelete} 
-                        className="delete-btn"
-                    >
-                        Excluir
-                    </button>
-                </div>
+                <h1>Ekklesia - Editar Membro</h1>
+                {/* ...existing header content... */}
             </header>
 
-            <main className="form-main">
-                <div className="form-header">
-                    <h2>{member.nome_completo}</h2>
-                    <p>Atualize as informações do membro</p>
-                </div>
-                
-                <MemberForm 
-                    onSubmit={handleSubmit} 
-                    onCancel={handleCancel}
-                    initialData={member}
-                />
-            </main>
+            {/* ...existing main content... */}
         </div>
     );
 };

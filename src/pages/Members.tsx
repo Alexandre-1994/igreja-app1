@@ -16,7 +16,8 @@ const Spinner = () => <div className="spinner"></div>;
 // Interfaces para os componentes
 interface MemberTableProps {
     members: Member[];
-    onEdit: (member: Member) => void;
+    onView: (member: Member) => void; // Changed from onEdit to onView
+    onEdit: (member: Member) => void; // Added new onEdit prop
     onDelete: (id: string) => void;
     currentPage: number;
     totalPages: number;
@@ -43,7 +44,18 @@ interface ChartsProps {
 }
 
 // Componente de tabela de membros
-const MemberTable: React.FC<MemberTableProps> = ({ members, onEdit, onDelete, currentPage, totalPages, onPageChange, rowsPerPage, onRowsPerPageChange, totalMembers }) => {
+const MemberTable: React.FC<MemberTableProps> = ({ 
+    members, 
+    onView,  // Changed from onEdit to onView
+    onEdit,  // Added new onEdit prop
+    onDelete, 
+    currentPage, 
+    totalPages, 
+    onPageChange, 
+    rowsPerPage, 
+    onRowsPerPageChange, 
+    totalMembers 
+}) => {
     return (
         <div>
             <div className="member-table-container">
@@ -69,6 +81,9 @@ const MemberTable: React.FC<MemberTableProps> = ({ members, onEdit, onDelete, cu
                                 <td>{member.funcao}</td>
                                 <td>{member.sociedade || '-'}</td>
                                 <td className="action-buttons">
+                                    <button onClick={() => onView(member)} className="view-btn">
+                                        Ver
+                                    </button>
                                     <button onClick={() => onEdit(member)} className="edit-btn">
                                         Editar
                                     </button>
@@ -400,8 +415,12 @@ const Members: React.FC = () => {
         }
     };
 
+    const handleView = (member: Member) => {
+        history.push(`/app/view/${member.id}`);
+    };
+
     const handleEdit = (member: Member) => {
-        history.push(`/edit/${member.id}`);
+        history.push(`/app/edit/${member.id}`);
     };
 
     const handleDelete = async (id: string) => {
@@ -460,7 +479,7 @@ const Members: React.FC = () => {
             )}
             
             <header className="page-header">
-                <h1>Estatísticas e Membros</h1>
+                <h1>Ekklesia - Gestão de Membros</h1>
                 <div className="header-actions">
                     <button 
                         onClick={() => history.push('/app/add')} 
@@ -495,7 +514,8 @@ const Members: React.FC = () => {
                 {filteredMembers.length > 0 ? (
                     <MemberTable 
                         members={currentMembers}
-                        onEdit={handleEdit} 
+                        onView={handleView} // Changed to handleView
+                        onEdit={handleEdit} // Added handleEdit prop
                         onDelete={handleDelete}
                         currentPage={currentPage}
                         totalPages={totalPages}

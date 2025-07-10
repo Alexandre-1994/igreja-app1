@@ -337,14 +337,14 @@ const Home: React.FC = () => {
       {showWelcome && userName && (
         <div className="welcome-message">
           <div className="welcome-content">
-            <h2>Bem-vindo(a), {userName.split('@')[0]}!</h2>
+            <h2>Bem-vindo(a) ao Ekklesia, {userName.split('@')[0]}!</h2>
             <p>Sistema de gestão ICUM/SNF</p>
           </div>
         </div>
       )}
       
       <header className="page-header">
-        <h1>Dashboard Analítico</h1>
+        <h1>Ekklesia - Dashboard</h1>
         <div className="header-actions">
           <div className="time-frame-selector">
             <button 
@@ -649,13 +649,13 @@ const Home: React.FC = () => {
                     <p className="activity-meta">
                       <span className="activity-type">Adicionado</span>
                       <span className="activity-time">
-                        {new Date(member.created_at).toLocaleDateString('pt-BR')}
+                        {new Date(member.created_at ?? '').toLocaleDateString('pt-BR')}
                       </span>
                     </p>
                   </div>
                   <button 
                     className="view-button"
-                    onClick={() => history.push(`/app/edit/${member.id}`)}
+                    onClick={() => history.push(`/app/view/${member.id}`)}
                   >
                     Ver
                   </button>

@@ -62,7 +62,7 @@ const AddMember = () => {
       )}
       
       <header className="page-header">
-        <h1>Novo Membro</h1>
+        <h1>Ekklesia - Novo Membro</h1>
       </header>
 
       <main className="form-main">
