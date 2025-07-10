@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonPage, IonContent } from '@ionic/react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { supabase } from '../services/supabase';
 import { showFeedback } from '../services/feedback';
 import './Login.css';
@@ -13,37 +12,42 @@ const Login: React.FC = () => {
   const [fadeIn, setFadeIn] = useState(false);
   const history = useHistory();
 
-  // Animação de entrada
+  // Efeito de animação
   useEffect(() => {
     setTimeout(() => setFadeIn(true), 100);
   }, []);
 
-  // Escutar mudanças de autenticação
+  // Verificar sessão existente
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (event === 'SIGNED_IN' && session) {
-          console.log('User signed in, redirecting to home');
-          history.push('/home');
-        }
-      }
-    );
-
-    // Verificar se já está logado
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        history.push('/home');
+        history.push('/app');
       }
     };
     
     checkSession();
+    
+    // Escutar mudanças de autenticação
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === 'SIGNED_IN' && session) {
+          history.push('/app');
+        }
+      }
+    );
 
     return () => subscription.unsubscribe();
   }, [history]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!email.trim() || !password) {
+      showFeedback('Por favor, preencha todos os campos', 'warning');
+      return;
+    }
+    
     setIsLoading(true);
 
     try {
@@ -53,86 +57,82 @@ const Login: React.FC = () => {
       });
 
       if (error) {
-        showFeedback(
-          error.message === 'Invalid login credentials' 
-            ? 'Credenciais inválidas. Verifique seu email e senha.'
-            : error.message,
-          'error'
-        );
+        let errorMessage = 'Erro ao fazer login';
+        
+        if (error.message === 'Invalid login credentials') {
+          errorMessage = 'Email ou senha incorretos';
+        }
+        
+        showFeedback(errorMessage, 'error');
       } else if (data?.user) {
         showFeedback('Login realizado com sucesso!', 'success');
+        history.push('/app');
       }
-    } catch {
-      showFeedback('Erro inesperado. Tente novamente.', 'error');
+    } catch (error) {
+      showFeedback('Ocorreu um erro inesperado. Tente novamente.', 'error');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <IonPage className="login-page">
-      <IonContent className="login-content" fullscreen>
-        <div className={`login-container ${fadeIn ? 'fade-in' : ''}`}>
-          {/* Header */}
-          <div className="login-header">
-            <div className="logo-circle" />
-            <h1 className="login-title">Sistema de Gestão</h1>
-            <p className="login-subtitle">Sociedade da Nova Familia Geral</p>
+    <div className={`login-container ${fadeIn ? 'fade-in' : ''}`}>
+      <div className="login-card">
+        <div className="login-header">
+          <h1 className="app-name">Ekklesia</h1>
+          <p className="app-description">Gestão de Membros da Igreja</p>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Seu email"
+              disabled={isLoading}
+            />
           </div>
-
-          {/* Formulário de Login */}
-          <form onSubmit={handleSubmit}>
-            {/* Campo Email */}
-            <div className="input-group">
-              <input
-                type="email"
-                className="custom-input"
-                placeholder="Email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            {/* Campo Senha */}
-            <div className="input-group">
+          
+          <div className="form-group password-group">
+            <label htmlFor="password">Senha</label>
+            <div className="password-input-container">
               <input
                 type={showPassword ? 'text' : 'password'}
-                className="custom-input"
-                placeholder="Senha"
+                id="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Sua senha"
+                disabled={isLoading}
               />
               <button
                 type="button"
-                className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
-                aria-label="Toggle password visibility"
+                className="toggle-password"
+                tabIndex={-1}
               >
                 {showPassword ? 'Ocultar' : 'Mostrar'}
               </button>
             </div>
-
-            {/* Botão Login */}
-            <div className="input-group">
-              <button
-                type="submit"
-                className="login-button"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Entrando...' : 'Entrar'}
-              </button>
-            </div>
-          </form>
-
-          {/* Footer */}
-          <div className="login-footer">
-            <p>© 2024 Mozihub - Sistema de Gestão</p>
           </div>
+          
+          <button 
+            type="submit" 
+            className="login-button"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Entrando...' : 'Entrar'}
+          </button>
+        </form>
+        
+        <div className="login-footer">
+          <p>&copy; 2024 Ekklesia - Todos os direitos reservados</p>
+          <p className="version">v1.0.0</p>
         </div>
-      </IonContent>
-    </IonPage>
+      </div>
+    </div>
   );
 };
 

@@ -13,6 +13,8 @@ import MainLayout from './components/MainLayout';
 import { supabase } from './services/supabase';
 import { canManageMembers } from './utils/permissions';
 import { setupViewportHeight, fixIonicScroll } from './utils/viewport';
+import ViewMember from './pages/ViewMember';
+import About from './pages/About';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -60,20 +62,15 @@ const App: React.FC = () => {
   }, []);
   
   useEffect(() => {
-    // Configurar altura da viewport e corrigir scroll do Ionic
+    // Configurar altura da viewport
     setupViewportHeight();
     
-    // Corrigir scroll após o carregamento inicial
-    setTimeout(() => {
+    // Corrigir scroll do Ionic após carregamento
+    const timer = setTimeout(() => {
       fixIonicScroll();
-    }, 300);
+    }, 100);
     
-    // Re-aplicar quando a rota muda
-    window.addEventListener('ionRouteDidChange', fixIonicScroll);
-    
-    return () => {
-      window.removeEventListener('ionRouteDidChange', fixIonicScroll);
-    };
+    return () => clearTimeout(timer);
   }, []);
   
   const checkAuth = async () => {
@@ -127,6 +124,8 @@ const App: React.FC = () => {
                   <Route path="/app/edit/:id" component={EditMember} exact />
                   <Route path="/app/users" component={UserManagement} exact />
                   <Route path="/app/test-tailwind" component={TailwindTest} exact />
+                  <Route path="/app/view/:id" component={ViewMember} exact />
+                  <Route path="/app/about" component={About} exact />
                   <Route path="/app">
                     <Redirect to="/app/home" />
                   </Route>

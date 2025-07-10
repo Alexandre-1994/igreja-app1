@@ -5,12 +5,12 @@ body, html {
   padding: 0;
   height: 100%;
   width: 100%;
-  overflow: auto !important;
+  overflow: auto;
 }
 
 #root {
   height: 100%;
-  overflow: auto;
+  overflow: visible;
 }
 
 .scrollable-app {
@@ -39,13 +39,8 @@ html, body, #root {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
-  overflow-y: auto !important;
+  overflow-y: auto;
   position: relative;
-}
-
-/* Remover as restrições de scroll do Ionic */
-ion-content {
-  --overflow: auto !important;
 }
 
 ion-app, ion-router-outlet, ion-content, ion-page {

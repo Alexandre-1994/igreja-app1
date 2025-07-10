@@ -3,15 +3,19 @@ export interface Member {
     nome_completo: string;
     data_nascimento: string;
     genero: 'Masculino' | 'Feminino';
+    telefone?: string; // Added telefone property
+    email?: string;
     regiao: 'ESTE' | 'OESTE' | 'SUL' | 'SUDUESTE' | 'NORTE';
     paroquia: string;
     funcao: 'Pastor' | 'Evangelista' | 'Monitor' | 'Membro Normal';
-    estado: 'Batizado' | 'Confirmado';
-    sociedade: 'Dominical' | 'Jovens' | 'SNF' | 'SHV' | 'SS';
-    created_at: string;
+    sociedade?: 'Dominical' | 'Jovens' | 'SNF' | 'SHV' | 'SS';
+    endereco?: string;
+    estado?: 'Batizado' | 'Confirmado'; // Added estado property
+    created_at?: string;
     updated_at?: string; // Make it optional since it might not exist for all members
 }
 
+// This might already exist in your file - if not, add it
 export const paroquiasPorRegiao = {
     ESTE: ['Munhava', 'Esturo', 'Massagem', 'Ampara', 'Nova Sofala ', 'Baixo Buzi', 'Alto Buzi', 'Nhamidji', 'Tica', 'Dondo', 'Chamba', 'Massagem', 'Inhamudima', 'C. de Machiquiri'],
     SUL: ['Manhangalene', 'Costa do Sol', 'Magoanine'],

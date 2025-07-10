@@ -40,16 +40,20 @@ const AddMember = () => {
       }
 
       showFeedback('Membro cadastrado com sucesso!', 'success');
-      history.push('/');
+      history.push('/app/members');
     } catch (err) {
       showFeedback('Não foi possível completar o cadastro. Tente novamente.', 'error');
     } finally {
       setIsLoading(false);
     }
   };
+  
+  const handleCancel = () => {
+    history.goBack();
+  };
 
   return (
-    <div className="add-member-page">
+    <div className="add-member-page scrollable-content">
       {isLoading && (
         <div className="loading-overlay">
           <Spinner />
@@ -58,18 +62,19 @@ const AddMember = () => {
       )}
       
       <header className="page-header">
-        <h1>Novo Membro</h1>
+        <h1>Ekklesia - Novo Membro</h1>
       </header>
 
-      <main className="page-content">
-        <div className="form-container">
-          <div className="form-header">
-            <h2>Cadastro de Membro</h2>
-            <p>Os campos com * são obrigatórios</p>
-          </div>
-          
-          <MemberForm onSubmit={handleSubmit} />
+      <main className="form-main">
+        <div className="form-header">
+          <h2>Cadastro de Membro</h2>
+          <p>Preencha os dados do novo membro</p>
         </div>
+        
+        <MemberForm 
+          onSubmit={handleSubmit} 
+          onCancel={handleCancel}
+        />
       </main>
     </div>
   );
